@@ -41,7 +41,7 @@ post_input_json = toJSON(input_json,auto_unbox=T)
 ## create the headers for the POST call
 header = add_headers(.headers = c('Authorization'= 'SCIO_CROP_LAMBDAS', 'Content-Type' = 'application/json'))
 ## execute the POST call
-response = POST(url = "https://ppsnu97iaj.execute-api.eu-central-1.amazonaws.com/", config = header , body = post_input_json)
+response = POST(url = "https://lambda.qvantum.dssat.scio.services/", config = header , body = post_input_json)
 
 ## get the returned data as a R list
 data_list = content(response)
@@ -113,13 +113,13 @@ Once you clone this repo, you would need to build to the Docker image by provisi
 
 `docker build --build-arg AWS_KEY=xxxx --build-arg AWS_SECRET=yyyy .`
 
-When the docker image is built, you can navigate to [AWS ECR](https://us-east-2.console.aws.amazon.com/ecr) in order to push the image to your AWS account.
+When the docker image is built, you can navigate to [AWS ECR](https://us-east-2.console.aws.amazon.com/ecr) in order to push the image to your AWS account by following the relevant push commands instructions.
 
 Then you would have to configure your lambda function accordingly with "Container image" option. Make sure that you have adjusted the configuration of the function according to DSSAT model needs.
 
-Hence the recommended settings are **1024 MB for memory** and **1 minute timeout**.
+The recommended settings are **1024 MB for memory** and **1 minute timeout**.
 
-Finally, you can navigate to API Gateway console and create a HTTP API. Go to "Routes" page and create a route. Then go to "Integrations" page and make one for the route you created by adding the lambda function you created.
+Finally, you can navigate to API Gateway console and create a HTTP API. Go to "Routes" page and create a route. Then go to "Integrations" page and make one for the route you created by adding the lambda function you created using a POST request method.
 
 `https://<random text>.execute-api.<your aws region>.amazonaws.com`
 
